@@ -7,12 +7,10 @@ class Cargo:
 
 
 class BaseRobot:
-    def __init__(self, name: str,
-                 weight: int,
-                 coords: Optional[List[int]] = None) -> None:
+    def __init__(self, name: str, weight: int, coords: Optional[List[int]] = None) -> None:
         self.name: str = name
         self.weight: int = weight
-        self.coords: List[int] = coords.copy() if coords else [0, 0]
+        self.coords: List[int] = coords if coords is not None else [0, 0]
 
     def go_forward(self, step: int = 1) -> None:
         self.coords[1] += step
@@ -20,22 +18,21 @@ class BaseRobot:
     def go_back(self, step: int = 1) -> None:
         self.coords[1] -= step
 
-    def go_left(self, step: int = 1) -> None:
-        self.coords[0] -= step
-
     def go_right(self, step: int = 1) -> None:
         self.coords[0] += step
+
+    def go_left(self, step: int = 1) -> None:
+        self.coords[0] -= step
 
     def get_info(self) -> str:
         return f"Robot: {self.name}, Weight: {self.weight}"
 
 
 class FlyingRobot(BaseRobot):
-    def __init__(self, name: str,
-                 weight: int,
-                 coords: Optional[List[int]] = None) -> None:
+    def __init__(self, name: str, weight: int, coords: Optional[List[int]] = None) -> None:
         coords = coords if coords else [0, 0, 0]
-        super().__init__(name, weight, coords)
+        super().__init__(name, weight, coords[:2])
+        self.coords = coords  # sobrescreve com coordenadas 3D
 
     def go_up(self, step: int = 1) -> None:
         self.coords[2] += step
@@ -51,7 +48,7 @@ class DeliveryDrone(FlyingRobot):
         weight: int,
         max_load_weight: int,
         current_load: Optional[Cargo] = None,
-        coords: Optional[list[int]] = None,
+        coords: Optional[List[int]] = None,
     ) -> None:
         super().__init__(name, weight, coords)
         self.max_load_weight: int = max_load_weight
