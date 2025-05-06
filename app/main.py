@@ -7,7 +7,9 @@ class Cargo:
 
 
 class BaseRobot:
-    def __init__(self, name: str, weight: int, coords: Optional[List[int]] = None) -> None:
+    def __init__(self, name: str,
+                 weight: int,
+                 coords: Optional[List[int]] = None) -> None:
         self.name: str = name
         self.weight: int = weight
         self.coords: List[int] = coords if coords is not None else [0, 0]
@@ -29,7 +31,9 @@ class BaseRobot:
 
 
 class FlyingRobot(BaseRobot):
-    def __init__(self, name: str, weight: int, coords: Optional[List[int]] = None) -> None:
+    def __init__(self, name: str,
+                 weight: int,
+                 coords: Optional[List[int]] = None) -> None:
         coords = coords if coords else [0, 0, 0]
         super().__init__(name, weight, coords[:2])
         self.coords = coords  # sobrescreve com coordenadas 3D
